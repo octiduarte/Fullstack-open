@@ -1,7 +1,10 @@
 import Header from "./components/Header";
 import Content from "./components/Content";
 import Total from "./components/Total";
+import Hello from "./components/Hello";
 const App = () => {
+  const name = 'Peter'
+  const age = 10
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -26,6 +29,9 @@ const App = () => {
      <Header course={course.name} />
       <Content course={course.parts}/>
       <Total course={course.parts}/>
+      <h1>Greetings</h1>
+      <Hello name="Maya" age={26 + 10} />
+      <Hello name={name} age={age} />
     </div>
   );
 };
