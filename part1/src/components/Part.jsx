@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-const Part = (props) => {
-  console.log(props)
+const Part = ({part}) => {
   return (
-    <div>
-      <p>{props.parts.name} {props.parts.exercises}</p>
-    </div>
-  )
-}
-export default Part
+    <p>
+      {part.name} {part.exercises}
+    </p>
+  );
+};
+
+export default Part;

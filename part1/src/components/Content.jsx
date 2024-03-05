@@ -1,15 +1,14 @@
-import Part from './Part';
+import React from "react";
+import Part from "./Part";
 
-const Content = (props) => {
-  console.log(props)
+const Content = ({ course }) => {
   return (
     <div>
-      <Part parts={props.parts[0]} />
-      <Part parts={props.parts[1]} />
-      <Part parts={props.parts[2]} />
+      {course.map((part, index) => (
+        <Part key={index} part={part} />
+      ))}
     </div>
-  )
-}
-
+  );
+};
 
 export default Content;

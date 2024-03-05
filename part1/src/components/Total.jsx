@@ -1,11 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-const Total = (props) => {
-  console.log(props)
+const Total = ({ course }) => {
+  const totalExercises = course.reduce((total, part) => total + part.exercises, 0);
+
   return (
     <div>
-      <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+      <p>Total number of exercises: {totalExercises}</p>
     </div>
-  )
-}
-export default Total
+  );
+};
+
+export default Total;

@@ -1,6 +1,6 @@
-import Header from './components/Header';
-import Content from './components/Content';
-import Total from './components/Total';
+import Header from "./components/Header";
+import Content from "./components/Content";
+import Total from "./components/Total";
 const App = () => {
   const course = {
     name: 'Half Stack application development',
@@ -19,16 +19,15 @@ const App = () => {
       }
     ]
   }
+  
 
-
-
-  return (
+  return (  
     <div>
-      <Header course={course} />
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
+     <Header course={course.name} />
+      <Content course={course.parts}/>
+      <Total course={course.parts}/>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
