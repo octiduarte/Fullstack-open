@@ -1,19 +1,27 @@
-import { useState } from "react";
+import axios from 'axios'
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import { useState, useEffect } from 'react'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  const hook = () => {
+    console.log("effect")
+    axios
+      .get('http://localhost:3002/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        
+      })
+  }
+  
+  useEffect(hook, [])
+
+  const [persons, setPersons] = useState([]);
 
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
-  const [newSearch, setNewSearch] = useState(""); // Nuevo estado para el término de búsqueda
+  const [newSearch, setNewSearch] = useState(""); 
 
   const addNote = (event) => {
     event.preventDefault();
@@ -50,6 +58,7 @@ const App = () => {
     person.name.toLowerCase().includes(newSearch.toLowerCase())
   );
 
+  
   return (
     <div>
       <h2>Phonebook</h2>
