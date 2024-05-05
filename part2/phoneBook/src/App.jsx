@@ -3,16 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import { useState, useEffect } from 'react'
-
+import noteService from './service/notes'
 const App = () => {
   const hook = () => {
-    console.log("effect")
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    noteService
+    .getAll()
+    .then(initialPersons => {
+      setPersons(initialPersons)
+    })
   }
   
   useEffect(hook, [])
@@ -32,6 +30,12 @@ const App = () => {
     };
 
     const nameExists = persons.some((person) => person.name === newName);
+
+    noteService
+    .create(personObject)
+    .then(returnedPerson => {
+      setPersons(persons.concat(returnedPerson))
+    })
 
     if (nameExists) {
       alert(newName + " ya existe");
@@ -58,6 +62,15 @@ const App = () => {
     person.name.toLowerCase().includes(newSearch.toLowerCase())
   );
 
+
+const handleToggleDelete = (id) =>{
+ noteService
+ .remove(id)
+ .then(() => {
+  setPersons(persons.filter(person => person.id != id))
+ })
+}
+
   
   return (
     <div>
@@ -72,7 +85,7 @@ const App = () => {
         handlePhoneChange={handlePhoneChange}
       />
       <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons}/>
+      <Persons filteredPersons={filteredPersons} handleToggleDelete={handleToggleDelete}/>
     </div>
   );
 };
