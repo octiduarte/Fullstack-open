@@ -7,11 +7,6 @@ const Persons = ({ filteredPersons, handleToggleDelete }) => {
       handleToggleDelete(id)
     }
   }
-
-
-
-
-
   return (
     <div>
       <ul>

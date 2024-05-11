@@ -29,20 +29,27 @@ const App = () => {
       number: newPhone,
     };
 
-    const nameExists = persons.some((person) => person.name === newName);
+    const existingPerson = persons.find((person) => person.name === newName);
+    
+    if (existingPerson) {
+      const id = existingPerson.id;
+      if(window.confirm(`El nombre ${newName} ya existe, desea reemplazar el numero nuevo por el viejo?`)){
+        noteService
+        .update(id,personObject)
+        .then((updatedPerson) => {
+          setPersons(persons.map(person => person.id === id ? updatedPerson : person ));
+        })
+        setNewName("")
+        setNewPhone("")
+      }
 
-    noteService
-    .create(personObject)
-    .then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-    })
-
-    if (nameExists) {
-      alert(newName + " ya existe");
-    } else {
-      setPersons(persons.concat(personObject));
-      setNewName("");
-      setNewPhone("");
+    } 
+    else {
+      noteService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+      })
     }
   };
 
