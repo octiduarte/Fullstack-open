@@ -4,6 +4,9 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import { useState, useEffect } from 'react'
 import noteService from './service/notes'
+import Notification from './components/Notification';
+import './App.css';
+
 const App = () => {
   const hook = () => {
     noteService
@@ -15,11 +18,11 @@ const App = () => {
   
   useEffect(hook, [])
 
-  const [persons, setPersons] = useState([]);
-
+  const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [newSearch, setNewSearch] = useState(""); 
+  const [Message, setMessage] = useState(null)
 
   const addNote = (event) => {
     event.preventDefault();
@@ -38,18 +41,39 @@ const App = () => {
         .update(id,personObject)
         .then((updatedPerson) => {
           setPersons(persons.map(person => person.id === id ? updatedPerson : person ));
+          setNewName("")
+          setNewPhone("")
+          setMessage({ text: `Updated '${personObject.name}'`, type: 'success' })
+          setTimeout(() => {
+            setMessage(null)
+          },5000)
         })
-        setNewName("")
-        setNewPhone("")
+        .catch(error => {
+          setMessage({ text: `Information of '${personObject.name}' has already been removed from server`, type: 'error' })
+          setTimeout(() => {
+            setMessage(null)
+          },5000)
+        })
       }
-
     } 
     else {
       noteService
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setNewName("");
+        setNewPhone("");
+        setMessage({ text: `Added '${personObject.name}'`, type: 'success' });
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       })
+      .catch(error => {
+        setMessage({ text: `Failed to add '${personObject.name}'`, type: 'error' });
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
     }
   };
 
@@ -82,6 +106,7 @@ const handleToggleDelete = (id) =>{
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={Message}/>
       <Filter value={newSearch} onChange={handleSearchChange} />
       <h3>Add a New</h3>
       <PersonForm

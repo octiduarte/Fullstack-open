@@ -23,4 +23,4 @@ const Persons = ({ filteredPersons, handleToggleDelete }) => {
   );
 };
 
-export default Persons;
+export default Persons; 
